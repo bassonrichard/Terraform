@@ -31,6 +31,17 @@ variable "sku" {
   }
 }
 
+variable "semantic_search_sku" {
+  type        = string
+  description = "(Optional) The semantic ranker tier: 'free' or 'standard'. Null leaves semantic ranking off."
+  default     = null
+
+  validation {
+    condition     = var.semantic_search_sku == null ? true : contains(["free", "standard"], var.semantic_search_sku)
+    error_message = "The semantic search SKU must be either 'free' or 'standard'."
+  }
+}
+
 variable "tags" {
   description = "(Optional) Specifies the tags of the resource"
   type        = map(any)

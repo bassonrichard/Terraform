@@ -31,6 +31,12 @@ variable "custom_domain_name" {
   default     = null
 }
 
+variable "custom_domain_use_subdomain" {
+  type        = bool
+  description = "(Optional) Verify the custom domain through an asverify subdomain CNAME instead of a direct CNAME."
+  default     = true
+}
+
 variable "tags" {
   description = "(Optional) Specifies the tags of the resource"
   type        = map(any)
