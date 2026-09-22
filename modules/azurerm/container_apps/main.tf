@@ -250,5 +250,11 @@ resource "azurerm_container_app" "az_container_app" {
     }
   }
 
+  lifecycle {
+    # CI deploys a new image tag on every merge. Terraform sets the image when the app is created and
+    # then leaves it alone; otherwise every apply would roll the app back to the tag in the config.
+    ignore_changes = [template[0].container[0].image]
+  }
+
   tags = var.tags
 }
