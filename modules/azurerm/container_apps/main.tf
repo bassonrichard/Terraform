@@ -24,6 +24,7 @@ resource "azurerm_container_app_environment" "az_container_app_environment" {
   name                       = "${var.name_prefix}-ace"
   location                   = var.location
   resource_group_name        = var.resource_group_name
+  logs_destination           = "log-analytics"
   log_analytics_workspace_id = module.log_analytics_workspace.id
 
   tags = var.tags
@@ -90,14 +91,13 @@ resource "azurerm_container_app" "az_container_app" {
 
             }
 
-            host                             = liveness_probe.value.host
-            initial_delay                    = liveness_probe.value.initial_delay
-            interval_seconds                 = liveness_probe.value.interval_seconds
-            path                             = liveness_probe.value.path
-            port                             = liveness_probe.value.port
-            termination_grace_period_seconds = liveness_probe.value.termination_grace_period_seconds
-            timeout                          = liveness_probe.value.timeout
-            transport                        = liveness_probe.value.transport
+            host             = liveness_probe.value.host
+            initial_delay    = liveness_probe.value.initial_delay
+            interval_seconds = liveness_probe.value.interval_seconds
+            path             = liveness_probe.value.path
+            port             = liveness_probe.value.port
+            timeout          = liveness_probe.value.timeout
+            transport        = liveness_probe.value.transport
           }
         }
 
@@ -141,13 +141,12 @@ resource "azurerm_container_app" "az_container_app" {
 
             }
 
-            host                             = startup_probe.value.host
-            interval_seconds                 = startup_probe.value.interval_seconds
-            path                             = startup_probe.value.path
-            port                             = startup_probe.value.port
-            termination_grace_period_seconds = startup_probe.value.termination_grace_period_seconds
-            timeout                          = startup_probe.value.timeout
-            transport                        = startup_probe.value.transport
+            host             = startup_probe.value.host
+            interval_seconds = startup_probe.value.interval_seconds
+            path             = startup_probe.value.path
+            port             = startup_probe.value.port
+            timeout          = startup_probe.value.timeout
+            transport        = startup_probe.value.transport
           }
         }
 
