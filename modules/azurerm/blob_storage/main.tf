@@ -12,6 +12,9 @@ resource "azurerm_storage_account" "storage_account" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
+  # azurerm 5.x defaults this to false; public containers need it on.
+  allow_nested_items_to_be_public = anytrue([for c in var.storage_containers : c.container_access_type != "private"])
+
   dynamic "custom_domain" {
     for_each = var.custom_domain_name != null ? [var.custom_domain_name] : []
     content {

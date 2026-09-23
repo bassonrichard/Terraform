@@ -24,6 +24,7 @@ resource "azurerm_container_app_environment" "az_container_app_environment" {
   name                       = "${var.name_prefix}-ace"
   location                   = var.location
   resource_group_name        = var.resource_group_name
+  logs_destination           = "log-analytics"
   log_analytics_workspace_id = module.log_analytics_workspace.id
 
   tags = var.tags
