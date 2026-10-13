@@ -48,6 +48,18 @@ variable "blob_delete_retention_days" {
   }
 }
 
+variable "blob_cors_rules" {
+  type = list(object({
+    allowed_headers    = list(string)
+    allowed_methods    = list(string)
+    allowed_origins    = list(string)
+    exposed_headers    = list(string)
+    max_age_in_seconds = number
+  }))
+  description = "(Optional) CORS rules for the blob service. Rules on the account that are not listed here are removed once any blob setting is managed."
+  default     = []
+}
+
 variable "tags" {
   description = "(Optional) Specifies the tags of the resource"
   type        = map(any)
