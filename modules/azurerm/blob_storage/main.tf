@@ -23,6 +23,15 @@ resource "azurerm_storage_account" "storage_account" {
     }
   }
 
+  dynamic "blob_properties" {
+    for_each = var.blob_delete_retention_days != null ? [var.blob_delete_retention_days] : []
+    content {
+      delete_retention_policy {
+        days = blob_properties.value
+      }
+    }
+  }
+
   tags = var.tags
 }
 
