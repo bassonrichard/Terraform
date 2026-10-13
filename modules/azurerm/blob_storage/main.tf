@@ -23,11 +23,26 @@ resource "azurerm_storage_account" "storage_account" {
     }
   }
 
+  # One block holds both settings: Azure treats a rule left out of it as a rule to remove.
   dynamic "blob_properties" {
-    for_each = var.blob_delete_retention_days != null ? [var.blob_delete_retention_days] : []
+    for_each = var.blob_delete_retention_days != null || length(var.blob_cors_rules) > 0 ? [1] : []
     content {
-      delete_retention_policy {
-        days = blob_properties.value
+      dynamic "cors_rule" {
+        for_each = var.blob_cors_rules
+        content {
+          allowed_headers    = cors_rule.value.allowed_headers
+          allowed_methods    = cors_rule.value.allowed_methods
+          allowed_origins    = cors_rule.value.allowed_origins
+          exposed_headers    = cors_rule.value.exposed_headers
+          max_age_in_seconds = cors_rule.value.max_age_in_seconds
+        }
+      }
+
+      dynamic "delete_retention_policy" {
+        for_each = var.blob_delete_retention_days != null ? [var.blob_delete_retention_days] : []
+        content {
+          days = delete_retention_policy.value
+        }
       }
     }
   }
