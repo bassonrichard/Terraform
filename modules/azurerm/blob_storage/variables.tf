@@ -37,6 +37,17 @@ variable "custom_domain_use_subdomain" {
   default     = true
 }
 
+variable "blob_delete_retention_days" {
+  type        = number
+  description = "(Optional) Days a deleted blob stays recoverable (soft delete). Leave null to keep soft delete off."
+  default     = null
+
+  validation {
+    condition     = var.blob_delete_retention_days == null ? true : var.blob_delete_retention_days >= 1 && var.blob_delete_retention_days <= 365
+    error_message = "blob_delete_retention_days must be between 1 and 365."
+  }
+}
+
 variable "tags" {
   description = "(Optional) Specifies the tags of the resource"
   type        = map(any)
